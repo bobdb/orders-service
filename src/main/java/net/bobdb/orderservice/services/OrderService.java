@@ -1,7 +1,7 @@
 package net.bobdb.orderservice.services;
 
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
-import net.bobdb.orderservice.dto.OrderLineItemDTO;
 import net.bobdb.orderservice.dto.OrderRequest;
 import net.bobdb.orderservice.mappers.Mapper;
 import net.bobdb.orderservice.models.Order;
@@ -15,6 +15,7 @@ import java.util.UUID;
 
 @Service
 @Slf4j
+@Transactional
 public class OrderService {
 
     @Autowired
