@@ -2,6 +2,7 @@ package net.bobdb.orderservice.controllers;
 
 import net.bobdb.orderservice.dto.OrderLineItemDTO;
 import net.bobdb.orderservice.dto.OrderRequest;
+import net.bobdb.orderservice.dto.OrderResponse;
 import net.bobdb.orderservice.models.Order;
 import net.bobdb.orderservice.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,11 @@ public class OrderController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public String placeOrder(@RequestBody OrderRequest orderRequest) {
+    public OrderResponse placeOrder(@RequestBody OrderRequest orderRequest) {
         orderService.placeOrder(orderRequest);
-        return "Order Placed";
+        return OrderResponse.builder()
+                .message("success. ' placed")
+            .build();
     }
 
 

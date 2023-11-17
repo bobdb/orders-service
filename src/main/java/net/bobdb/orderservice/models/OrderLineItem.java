@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 @Table(name = "orderlineitems")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class OrderLineItem {
 
     @Id

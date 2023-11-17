@@ -34,7 +34,7 @@ public class OrderService {
             .build();
 
         ordersRepository.save(order);
-        log.info("Order {} placed.",order.getId());
+        log.info("Order number {} placed.",order.getOrdernumber());
 
     }
 
