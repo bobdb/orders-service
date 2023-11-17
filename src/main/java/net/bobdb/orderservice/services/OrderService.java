@@ -1,7 +1,9 @@
 package net.bobdb.orderservice.services;
 
+import lombok.extern.slf4j.Slf4j;
 import net.bobdb.orderservice.dto.OrderLineItemDTO;
 import net.bobdb.orderservice.dto.OrderRequest;
+import net.bobdb.orderservice.mappers.Mapper;
 import net.bobdb.orderservice.models.Order;
 import net.bobdb.orderservice.models.OrderLineItem;
 import net.bobdb.orderservice.repositories.OrdersRepository;
@@ -12,35 +14,28 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class OrderService {
 
     @Autowired
     OrdersRepository ordersRepository;
 
-    public List<String> getAllOrders() {
-        List<Order> orderList =  ordersRepository.findAll();
-        return orderList.stream().map(o->o.getOrdernumber()).toList();
-    }
+    @Autowired
+    Mapper mapper;
 
     public void placeOrder(OrderRequest orderRequest) {
         List<OrderLineItem> orderLineItemList = orderRequest.getOrderLineItemDTOList()
                                                             .stream()
-                                                            .map(this::mapToObject)
+                                                            .map(mapper::mapToObject)
                                                             .toList();
-        Order order = new Order();
-        order.setOrdernumber(UUID.randomUUID().toString());
-        order.setOrderlineitemlist(orderLineItemList);
+        Order order = Order.builder()
+                .ordernumber(UUID.randomUUID().toString())
+                .orderlineitemlist(orderLineItemList)
+            .build();
 
         ordersRepository.save(order);
+        log.info("Order {} placed.",order.getId());
 
-    }
-
-    private OrderLineItem mapToObject(OrderLineItemDTO orderLineItemDTO) {
-        OrderLineItem orderLineItem = new OrderLineItem();
-        orderLineItem.setSkucode(orderLineItemDTO.getSkucode());
-        orderLineItem.setPrice(orderLineItemDTO.getPrice());
-        orderLineItem.setQuantity(orderLineItem.getQuantity());
-        return orderLineItem;
     }
 
 }

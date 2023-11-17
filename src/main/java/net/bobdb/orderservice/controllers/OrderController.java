@@ -17,12 +17,6 @@ public class OrderController {
     @Autowired
     OrderService orderService;
 
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<String> getAllOrders() {
-        return orderService.getAllOrders();
-    }
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public String placeOrder(@RequestBody OrderRequest orderRequest) {
